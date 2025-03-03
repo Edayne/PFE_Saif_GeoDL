@@ -1,0 +1,148 @@
+,Sample Name,Mineral,Rock Type,combined_label
+0,SL1,Ca,Gneiss,Ca_Gneiss
+1,SL1,Fe,Gneiss,Fe_Gneiss
+2,SL1,Si,Gneiss,Si_Gneiss
+3,SL2,Ca,Gneiss,Ca_Gneiss
+4,SL2,Fe,Gneiss,Fe_Gneiss
+5,SL2,Si,Gneiss,Si_Gneiss
+6,SL3,Ca,Gneiss,Ca_Gneiss
+7,SL3,Fe,Gneiss,Fe_Gneiss
+8,SL3,Si,Gneiss,Si_Gneiss
+9,SL4,Ca,Roche transitoire,Ca_Roche transitoire
+10,SL4,Fe,Roche transitoire,Fe_Roche transitoire
+11,SL4,Si,Roche transitoire,Si_Roche transitoire
+12,SL5,Ca,Roche transitoire,Ca_Roche transitoire
+13,SL5,Fe,Roche transitoire,Fe_Roche transitoire
+14,SL5,Si,Roche transitoire,Si_Roche transitoire
+15,SL6,Ca,Roche transitoire,Ca_Roche transitoire
+16,SL6,Fe,Roche transitoire,Fe_Roche transitoire
+17,SL6,Si,Roche transitoire,Si_Roche transitoire
+18,SL7C,Ca,Roche transitoire,Ca_Roche transitoire
+19,SL7C,Fe,Roche transitoire,Fe_Roche transitoire
+20,SL7C,Si,Roche transitoire,Si_Roche transitoire
+21,SL8A,Ca,Core,Ca_Core
+22,SL8A,Fe,Core,Fe_Core
+23,SL8A,Si,Core,Si_Core
+24,SL8B,Ca,Core,Ca_Core
+25,SL8B,Fe,Core,Fe_Core
+26,SL8B,Si,Core,Si_Core
+27,SL8C,Ca,Core,Ca_Core
+28,SL8C,Fe,Core,Fe_Core
+29,SL8C,Si,Core,Si_Core
+30,SL8D,Ca,Core,Ca_Core
+31,SL8D,Fe,Core,Fe_Core
+32,SL8D,Si,Core,Si_Core
+33,SL8E,Ca,Core,Ca_Core
+34,SL8E,Fe,Core,Fe_Core
+35,SL8E,Si,Core,Si_Core
+36,SL9A,Ca,Roche transitoire,Ca_Roche transitoire
+37,SL9A,Fe,Roche transitoire,Fe_Roche transitoire
+38,SL9A,Si,Roche transitoire,Si_Roche transitoire
+39,SLG10,Ca,Gneiss,Ca_Gneiss
+40,SLG10,Fe,Gneiss,Fe_Gneiss
+41,SLG10,Si,Gneiss,Si_Gneiss
+42,SLG11,Ca,Roche transitoire,Ca_Roche transitoire
+43,SLG11,Fe,Roche transitoire,Fe_Roche transitoire
+44,SLG11,Si,Roche transitoire,Si_Roche transitoire
+45,SLG12,Ca,Roche transitoire,Ca_Roche transitoire
+46,SLG12,Fe,Roche transitoire,Fe_Roche transitoire
+47,SLG12,Si,Roche transitoire,Si_Roche transitoire
+48,SLG13,Ca,Roche transitoire,Ca_Roche transitoire
+49,SLG13,Fe,Roche transitoire,Fe_Roche transitoire
+50,SLG13,Si,Roche transitoire,Si_Roche transitoire
+51,SLG14,Ca,Roche transitoire,Ca_Roche transitoire
+52,SLG14,Fe,Roche transitoire,Fe_Roche transitoire
+53,SLG14,Si,Roche transitoire,Si_Roche transitoire
+54,SLG16,Ca,Roche transitoire,Ca_Roche transitoire
+55,SLG16,Fe,Roche transitoire,Fe_Roche transitoire
+56,SLG16,Si,Roche transitoire,Si_Roche transitoire
+57,SLG17,Ca,Roche transitoire,Ca_Roche transitoire
+58,SLG17,Fe,Roche transitoire,Fe_Roche transitoire
+59,SLG17,Si,Roche transitoire,Si_Roche transitoire
+60,SLG18,Ca,Roche transitoire,Ca_Roche transitoire
+61,SLG18,Fe,Roche transitoire,Fe_Roche transitoire
+62,SLG18,Si,Roche transitoire,Si_Roche transitoire
+63,SLG19,Ca,Roche transitoire,Ca_Roche transitoire
+64,SLG19,Fe,Roche transitoire,Fe_Roche transitoire
+65,SLG19,Si,Roche transitoire,Si_Roche transitoire
+66,SLG1,Ca,Gneiss,Ca_Gneiss
+67,SLG1,Fe,Gneiss,Fe_Gneiss
+68,SLG1,Si,Gneiss,Si_Gneiss
+69,SLG21,Ca,Roche transitoire,Ca_Roche transitoire
+70,SLG21,Fe,Roche transitoire,Fe_Roche transitoire
+71,SLG21,Si,Roche transitoire,Si_Roche transitoire
+72,SLG22,Ca,Core,Ca_Core
+73,SLG22,Fe,Core,Fe_Core
+74,SLG22,Si,Core,Si_Core
+75,SLG23,Ca,Roche transitoire,Ca_Roche transitoire
+76,SLG23,Fe,Roche transitoire,Fe_Roche transitoire
+77,SLG23,Si,Roche transitoire,Si_Roche transitoire
+78,SLG24,Ca,Roche transitoire,Ca_Roche transitoire
+79,SLG24,Fe,Roche transitoire,Fe_Roche transitoire
+80,SLG24,Si,Roche transitoire,Si_Roche transitoire
+81,SLG25,Ca,Roche transitoire,Ca_Roche transitoire
+82,SLG25,Fe,Roche transitoire,Fe_Roche transitoire
+83,SLG25,Si,Roche transitoire,Si_Roche transitoire
+84,SLG26,Ca,Roche transitoire,Ca_Roche transitoire
+85,SLG26,Fe,Roche transitoire,Fe_Roche transitoire
+86,SLG26,Si,Roche transitoire,Si_Roche transitoire
+87,SLG27,Ca,Roche transitoire,Ca_Roche transitoire
+88,SLG27,Fe,Roche transitoire,Fe_Roche transitoire
+89,SLG27,Si,Roche transitoire,Si_Roche transitoire
+90,SLG28,Ca,Roche transitoire,Ca_Roche transitoire
+91,SLG28,Fe,Roche transitoire,Fe_Roche transitoire
+92,SLG28,Si,Roche transitoire,Si_Roche transitoire
+93,SLG29,Ca,Roche transitoire,Ca_Roche transitoire
+94,SLG29,Fe,Roche transitoire,Fe_Roche transitoire
+95,SLG29,Si,Roche transitoire,Si_Roche transitoire
+96,SLG2,Ca,Gneiss,Ca_Gneiss
+97,SLG2,Fe,Gneiss,Fe_Gneiss
+98,SLG2,Si,Gneiss,Si_Gneiss
+99,SLG30A,Ca,Roche transitoire,Ca_Roche transitoire
+100,SLG30A,Fe,Roche transitoire,Fe_Roche transitoire
+101,SLG30A,Si,Roche transitoire,Si_Roche transitoire
+102,SLG30B,Ca,Roche transitoire,Ca_Roche transitoire
+103,SLG30B,Fe,Roche transitoire,Fe_Roche transitoire
+104,SLG30B,Si,Roche transitoire,Si_Roche transitoire
+105,SLG31,Ca,Gneiss,Ca_Gneiss
+106,SLG31,Fe,Gneiss,Fe_Gneiss
+107,SLG31,Si,Gneiss,Si_Gneiss
+108,SLG32,Ca,Gneiss,Ca_Gneiss
+109,SLG32,Fe,Gneiss,Fe_Gneiss
+110,SLG32,Si,Gneiss,Si_Gneiss
+111,SLG33,Ca,Gneiss,Ca_Gneiss
+112,SLG33,Fe,Gneiss,Fe_Gneiss
+113,SLG33,Si,Gneiss,Si_Gneiss
+114,SLG34A,Ca,Gneiss,Ca_Gneiss
+115,SLG34A,Fe,Gneiss,Fe_Gneiss
+116,SLG34A,Si,Gneiss,Si_Gneiss
+117,SLG34B,Ca,Gneiss,Ca_Gneiss
+118,SLG34B,Fe,Gneiss,Fe_Gneiss
+119,SLG34B,Si,Gneiss,Si_Gneiss
+120,SLG35,Ca,Gneiss,Ca_Gneiss
+121,SLG35,Fe,Gneiss,Fe_Gneiss
+122,SLG35,Si,Gneiss,Si_Gneiss
+123,SLG3,Ca,Gneiss,Ca_Gneiss
+124,SLG3,Fe,Gneiss,Fe_Gneiss
+125,SLG3,Si,Gneiss,Si_Gneiss
+126,SLG4,Ca,Gneiss,Ca_Gneiss
+127,SLG4,Fe,Gneiss,Fe_Gneiss
+128,SLG4,Si,Gneiss,Si_Gneiss
+129,SLG5,Ca,Gneiss,Ca_Gneiss
+130,SLG5,Fe,Gneiss,Fe_Gneiss
+131,SLG5,Si,Gneiss,Si_Gneiss
+132,SLG6,Ca,Gneiss,Ca_Gneiss
+133,SLG6,Fe,Gneiss,Fe_Gneiss
+134,SLG6,Si,Gneiss,Si_Gneiss
+135,SLG7,Ca,Gneiss,Ca_Gneiss
+136,SLG7,Fe,Gneiss,Fe_Gneiss
+137,SLG7,Si,Gneiss,Si_Gneiss
+138,SLG8,Ca,Gneiss,Ca_Gneiss
+139,SLG8,Fe,Gneiss,Fe_Gneiss
+140,SLG8,Si,Gneiss,Si_Gneiss
+141,SLG9,Ca,Gneiss,Ca_Gneiss
+142,SLG9,Fe,Gneiss,Fe_Gneiss
+143,SLG9,Si,Gneiss,Si_Gneiss
+144,SLG20,Ca,Roche transitoire,Ca_Roche transitoire
+145,SLG20,Fe,Roche transitoire,Fe_Roche transitoire
+146,SLG20,Si,Roche transitoire,Si_Roche transitoire
