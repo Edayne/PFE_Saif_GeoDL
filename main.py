@@ -54,7 +54,7 @@ if __name__ == "__main__":
     
     # Affichage des prédictions 
     y_test_pred = model.predict(X_test)
-    y_pred_bin = (y_test_pred > 0.45).astype(int)
+    y_pred_bin = (y_test_pred > 0.5).astype(int)
     label_names = encoder.get_feature_names_out()
     all_predicted_labels = []
     for i, sample in enumerate(y_pred_bin):
@@ -97,9 +97,9 @@ if __name__ == "__main__":
     plt.ylabel('Accuracy')
     plt.xlabel('Epoch')
     plt.legend(['Train', 'Test'], loc='upper left')
+    plt.show()
     plt.savefig('Loss and validation loss plot.png')
     print("GRAPH SAVED !")
-    plt.show()
     
     # #plotting PSNR
     # plt.plot(history.history['psnr'])

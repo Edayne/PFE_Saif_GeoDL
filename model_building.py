@@ -72,15 +72,15 @@ def build_model(input_shape, num_classes):
 
         # Couches de convolution
         layers.Conv2D(32, (3, 3), 
-                      activation='relu', 
+                      activation='elu', 
                       padding='same'),
         layers.MaxPooling2D((2, 2)),
         layers.Conv2D(64, (3, 3), 
-                      activation='relu', 
+                      activation='elu', 
                       padding='same'),
         layers.MaxPooling2D((2, 2)),
         layers.Conv2D(128, (3, 3), 
-                      activation='relu', 
+                      activation='elu', 
                       padding='same'),
         layers.MaxPooling2D((2, 2)),
         # layers.Conv2D(256, (3, 3), 
@@ -94,7 +94,7 @@ def build_model(input_shape, num_classes):
         # layers.Dropout(0.50),
         
         layers.Dense(128, 
-                     activation='relu'),
+                     activation='elu'),
         layers.Dropout(0.50),
         layers.BatchNormalization(),
         layers.Dense(num_classes, # Un neurone par classe
@@ -123,9 +123,9 @@ def train_model(model, X_train, y_train, X_test, y_test, epochs=15):
         keras.model: Modèle entrainé
     """
     # Création des callbacks
-    early_stopping = EarlyStopping(monitor='val_loss', patience=5, restore_best_weights=True)
+    early_stopping = EarlyStopping(monitor='val_loss', patience=5, restore_best_weights=True, start_from_epoch=6)
     model_checkpoint = ModelCheckpoint('best_model.keras', save_best_only=True, monitor='val_loss')
-    reduce_lr = ReduceLROnPlateau(monitor='val_loss', factor=0.5, patience=3)
+    reduce_lr = ReduceLROnPlateau(monitor='val_loss', factor=0.5, patience=3, verbose=1)
 
     # Entrainement du modèle
     print("\nDébut entrainement...")
@@ -133,7 +133,7 @@ def train_model(model, X_train, y_train, X_test, y_test, epochs=15):
         X_train, y_train,
         validation_data=(X_test, y_test),
         epochs=epochs,
-        batch_size=max(1, len(X_train)//10),
+        batch_size=max(1, len(X_train)//20),
         callbacks=[early_stopping, model_checkpoint, reduce_lr],
         verbose=1
     )
