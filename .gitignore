@@ -2,3 +2,4 @@ Image_data
 a_jeter.py
 __pycache__
 *.keras
+predictions.csv

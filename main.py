@@ -99,7 +99,16 @@ if __name__ == "__main__":
     plt.xlabel('Epoch')
     plt.legend(['Train', 'Test'], loc='upper left')
 
-    Path("Results").mkdir(parents=True, exist_ok=True)
-    plt.savefig('Results/Loss and accuracy plot.png')
+    results_dir = Path("Results")
+    results_dir.mkdir(parents=True, exist_ok=True)
+    # Find the next available index
+    existing_files = [f.stem for f in results_dir.glob("results_*.png")]
+    existing_numbers = [int(f.split("_")[-1]) for f in existing_files if f.split("_")[-1].isdigit()]
+    next_index = max(existing_numbers, default=0) + 1  # Default to 1 if no files exist
+    # Save the plot with an incremented filename
+    plot_path = results_dir / f"results_{next_index}.png"
+    plt.savefig(plot_path)
+
+    print(f"Plot saved as: {plot_path}")
 
     plt.show()
