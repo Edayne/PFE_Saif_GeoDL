@@ -4,12 +4,10 @@ from y_label_generator import *
 import matplotlib.pyplot as plt
 
 
-
-
 if __name__ == "__main__":
     print(f"\nTensorflow version : {tf.__version__}") #2.18.0
     print(f"Keras version : {tf.keras.__version__}") #3.8.0
-    
+    print("Num GPUs Available: ", len(tf.config.list_physical_devices('GPU')))
     
     # Import des images
     print("\nImport des images et création du dataset...")
@@ -28,18 +26,18 @@ if __name__ == "__main__":
     
     
     # Séparation du dataset en Train/Test
-    X_train, X_test, y_train, y_test, filenames_train, filenames_test = train_test_split(images, y, filenames, test_size=0.20)
+    X_train, X_test, y_train, y_test, filenames_train, filenames_test = train_test_split(images, y, filenames, test_size=0.10)
     print("Nombre d'images dans le Training set: ",len(X_train))
     print("Nombre d'images dans le Test set: ",len(X_test))
     img_shape = X_train[0].shape
     
-    # On n'entraine le modele que si l'utilisateur le souhaite
+    # Construction du modèle
     MODEL_PATH = "best_model.keras"
     EPOCHS = 25
     NB_CLASS = encoded_labels.shape[1]
     
     print("\nDébut entrainement...")
-    # Génération du réseau
+
     model = build_model(input_shape=img_shape, num_classes=NB_CLASS)
     model.summary()
 
@@ -48,7 +46,6 @@ if __name__ == "__main__":
     history = train_model(model, X_train, y_train, X_test, y_test, epochs=EPOCHS)
     end = time.time()
     print(f"Temps d'éxécution: {end-start:.2f}s")
-    
     
     evaluate_model(model, X_test, y_test)
     
@@ -65,47 +62,37 @@ if __name__ == "__main__":
         print(f"{filename}: prédiction {label}")
         
 
-    # Create a DataFrame with filenames and predicted labels
+    # On crée un dataframe associant chaque nom de fichier à sa prédiction
+    # On le stocke dans un CSV
     df_results = pd.DataFrame({
         "Filename": filenames_test,
         "Predicted Label": all_predicted_labels
     })
 
-    # Save to CSV   
     df_results.to_csv("predictions.csv", index=False)
 
     print("Predictions saved to predictions.csv!")
-
-
-    # imgplot = plt.imshow(X_test[i])
-    # plt.show()
-
-
-    # #subplot(r,c) provide the no. of rows and columns
-    # f, axarr = plt.subplots(4,3)
-
-    # for i in range(len(X_test)):
-    #     axarr[i].plot(X_test[i])
-    #     axarr[i].title.set_title(f"X_test[{i}] prédit {all_predicted_labels[i]}")
-    # print(f"Distribution de probabilité pour X_test[0] : {y_test_pred[0]}")
-
     
-    #plotting Loss
+    #plotting Accuracy
     plt.plot(history.history['accuracy'])
     plt.plot(history.history['val_accuracy'])
     plt.title('Précision modèle')
     plt.ylabel('Accuracy')
     plt.xlabel('Epoch')
     plt.legend(['Train', 'Test'], loc='upper left')
+    plt.savefig('Accuracy.png')
     plt.show()
     plt.savefig('Loss and validation loss plot.png')
-    print("GRAPH SAVED !")
+    print("ACCURACY GRAPH SAVED !")
     
-    # #plotting PSNR
-    # plt.plot(history.history['psnr'])
-    # plt.plot(history.history['val_psnr'])
-    # plt.title('Model PSNR')
-    # plt.ylabel('PSNR')
-    # plt.xlabel('Epoch')
-    # plt.legend(['Train', 'Test'], loc='upper left')
-    # plt.show()
+    #plotting Loss
+    plt.plot(history.history['loss'])
+    plt.plot(history.history['val_loss'])
+    plt.title('Perte du modèle')
+    plt.ylabel('Loss')
+    plt.xlabel('Epoch')
+    plt.legend(['Train', 'Test'], loc='upper left')
+    plt.savefig('Loss and validation loss plot.png')
+    plt.show()
+    plt.savefig('loss.png')
+    print("LOSS GRAPH SAVED !")
