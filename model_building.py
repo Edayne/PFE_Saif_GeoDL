@@ -112,19 +112,19 @@ def build_model(input_shape, num_classes):
     return model
 
 # 3. Train the model
-def train_model(model, X_train, y_train, X_test, y_test, epochs=20):
-    """_summary_
+def train_model(model, X_train, y_train, X_val, y_val, epochs=20):
+    """Entraine le modèle fourni
 
     Args:
-        model (keras.model): Le modèle que l'on souhaite entrainer
-        X_train (_type_): _description_
-        y_train (_type_): _description_
-        X_test (_type_): _description_
-        y_test (_type_): _description_
-        epochs (int, optional): _description_. Defaults to 20.
+        model (keras.model): Modèle compilé
+        X_train (numpy.ndarray): Images d'entrainement
+        y_train (numpy.ndarray): Labels des images d'entrainement
+        X_val (numpy.ndarray): Images de validation
+        y_val (numpy.ndarray): Labels des images de validation
+        epochs (int, optional): Nombre d'époques. Defaults to 20.
 
     Returns:
-        keras.model: Modèle entrainé
+        History:  A History object. Its History.history attribute is a record of training loss values and metrics values at successive epochs, as well as validation loss values and validation metrics values (if applicable). 
     """
     # Création des callbacks
     early_stopping = EarlyStopping(monitor='val_loss', patience=5, restore_best_weights=True, start_from_epoch=6)
@@ -135,7 +135,7 @@ def train_model(model, X_train, y_train, X_test, y_test, epochs=20):
     print("\nDébut entrainement...")
     history = model.fit(
         X_train, y_train,
-        validation_data=(X_test, y_test),
+        validation_data=(X_val, y_val),
         epochs=epochs,
         batch_size=max(1, len(X_train)//10),
         callbacks=[early_stopping, model_checkpoint, reduce_lr],
@@ -145,6 +145,17 @@ def train_model(model, X_train, y_train, X_test, y_test, epochs=20):
     
 # 4. Evaluate the model
 def evaluate_model(model, x_test, y_test):
-    test_loss, test_acc = model.evaluate(x_test, y_test)
-    print(f"Test accuracy: {test_acc:.4f}\n")
+    """Evalue les performances du modèle
 
+    Args:
+        model (keras.model): _description_
+        x_test (_type_): _description_
+        y_test (_type_): _description_
+
+    Returns:
+        int: 0
+    """
+    test_loss, test_acc = model.evaluate(x_test, y_test)
+    print(f"Test loss: {test_loss:.2f}")
+    print(f"Test accuracy: {test_acc:.2f}\n")
+    return 0

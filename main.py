@@ -32,10 +32,16 @@ if __name__ == "__main__":
     
     y = encoded_labels
     
-    
     # Séparation du dataset en Train/Test
-    X_train, X_test, y_train, y_test, filenames_train, filenames_test = train_test_split(images, y, filenames, test_size=0.20)
+    X_train, X_val, y_train, y_val, filenames_train, filenames_val \
+        = train_test_split(images, y, filenames, 
+                           test_size=0.20, shuffle=True)
+    X_test, X_val, y_test, y_val, filenames_test, filenames_val \
+        = train_test_split(X_val, y_val, filenames_val, 
+                           test_size=0.5)
+
     print("Nombre d'images dans le Training set: ",len(X_train))
+    print("Nombre d'images dans le Validation set: ",len(X_val))
     print("Nombre d'images dans le Test set: ",len(X_test))
     img_shape = X_train[0].shape
     
@@ -51,9 +57,9 @@ if __name__ == "__main__":
 
     # Entrainement du modèle
     start = time.time()
-    history = train_model(model, X_train, y_train, X_test, y_test, epochs=EPOCHS)
+    history = train_model(model, X_train, y_train, X_val, y_val, epochs=EPOCHS)
     end = time.time()
-    print(f"Temps d'éxécution: {end-start:.2f}s")
+    print(f"Temps d'éxécution: {end-start:.2f}s\n")
     
     evaluate_model(model, X_test, y_test)
     
