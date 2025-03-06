@@ -2,6 +2,9 @@ from model_building import *
 from y_label_generator import *
 
 import matplotlib.pyplot as plt
+import sys
+from pathlib import Path
+
 
 
 if __name__ == "__main__":
@@ -14,7 +17,12 @@ if __name__ == "__main__":
     
     images_path = "./Image_data"
     csv_path = "./sample_data.csv"
-    
+
+    if not os.path.exists(images_path):
+        print("IMAGE FOLDER NOT FOUND !")
+        sys.exit(-1)
+
+
     images, filenames = images_from_folder(images_path)
     print(f"\nNombre d'images importées : {len(images)}")
     df_labels, encoded_labels, encoder = generate_labels(images_path, csv_path)
@@ -26,7 +34,7 @@ if __name__ == "__main__":
     
     
     # Séparation du dataset en Train/Test
-    X_train, X_test, y_train, y_test, filenames_train, filenames_test = train_test_split(images, y, filenames, test_size=0.10)
+    X_train, X_test, y_train, y_test, filenames_train, filenames_test = train_test_split(images, y, filenames, test_size=0.20)
     print("Nombre d'images dans le Training set: ",len(X_train))
     print("Nombre d'images dans le Test set: ",len(X_test))
     img_shape = X_train[0].shape
@@ -74,25 +82,24 @@ if __name__ == "__main__":
     print("Predictions saved to predictions.csv!")
     
     #plotting Accuracy
+    plt.subplot(121)
     plt.plot(history.history['accuracy'])
     plt.plot(history.history['val_accuracy'])
-    plt.title('Précision modèle')
+    plt.title('Précision du modèle')
     plt.ylabel('Accuracy')
     plt.xlabel('Epoch')
     plt.legend(['Train', 'Test'], loc='upper left')
-    plt.savefig('Accuracy.png')
-    plt.show()
-    plt.savefig('Loss and validation loss plot.png')
-    print("ACCURACY GRAPH SAVED !")
     
     #plotting Loss
+    plt.subplot(122)
     plt.plot(history.history['loss'])
     plt.plot(history.history['val_loss'])
     plt.title('Perte du modèle')
     plt.ylabel('Loss')
     plt.xlabel('Epoch')
     plt.legend(['Train', 'Test'], loc='upper left')
-    plt.savefig('Loss and validation loss plot.png')
+
+    Path("Results").mkdir(parents=True, exist_ok=True)
+    plt.savefig('Results/Loss and accuracy plot.png')
+
     plt.show()
-    plt.savefig('loss.png')
-    print("LOSS GRAPH SAVED !")
