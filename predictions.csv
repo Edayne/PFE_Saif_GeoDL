@@ -1,31 +1,26 @@
 Filename,Predicted Label
-SLG7_BW_Fe.tif,"['Mineral_Ca', 'Mineral_Fe', 'Rock Type_Roche transitoire']"
-SL8B_BW_Fe.tif,"['Mineral_Si', 'Rock Type_Roche transitoire']"
-SL8D_BW_Fe.tif,"['Mineral_Si', 'Rock Type_Roche transitoire']"
-SLG6_BW_Si.tif,"['Mineral_Si', 'Rock Type_Gneiss', 'Rock Type_Roche transitoire']"
-SL6_BW_Ca.tif,"['Mineral_Ca', 'Rock Type_Roche transitoire']"
-SL3_BW_Si.tif,"['Mineral_Si', 'Rock Type_Roche transitoire']"
-SLG6_BW_Ca.tif,"['Mineral_Ca', 'Rock Type_Roche transitoire']"
-SL8C_BW_Ca.tif,"['Mineral_Si', 'Rock Type_Roche transitoire']"
-SLG28_BW_Si.tif,"['Mineral_Si', 'Rock Type_Gneiss', 'Rock Type_Roche transitoire']"
-SL8A_BW_Si.tif,"['Mineral_Si', 'Rock Type_Roche transitoire']"
-SLG24_BW_Fe.tif,"['Mineral_Ca', 'Rock Type_Roche transitoire']"
-SLG5_BW_Fe.tif,"['Mineral_Ca', 'Rock Type_Roche transitoire']"
-SLG26_BW_Ca.tif,"['Mineral_Ca', 'Rock Type_Roche transitoire']"
-SLG20_BW_Fe.tif,"['Mineral_Si', 'Rock Type_Roche transitoire']"
-SLG33_BW_Si.tif,"['Mineral_Si', 'Rock Type_Gneiss', 'Rock Type_Roche transitoire']"
-SLG35_BW_Ca.tif,"['Mineral_Ca', 'Rock Type_Roche transitoire']"
-SLG4_BW_Fe.tif,"['Mineral_Ca', 'Rock Type_Roche transitoire']"
-SL5_BW_Fe.tif,"['Mineral_Ca', 'Rock Type_Roche transitoire']"
-SL8E_BW_Si.tif,"['Mineral_Si', 'Rock Type_Roche transitoire']"
-SLG2_BW_Fe.tif,['Rock Type_Roche transitoire']
-SLG22_BW_Si.tif,"['Mineral_Si', 'Rock Type_Roche transitoire']"
-SLG34B_BW_Si.tif,"['Mineral_Si', 'Rock Type_Gneiss', 'Rock Type_Roche transitoire']"
-SLG14_BW_Fe.tif,"['Mineral_Ca', 'Rock Type_Roche transitoire']"
-SLG12_BW_Ca.tif,"['Mineral_Ca', 'Rock Type_Roche transitoire']"
-SLG30B_BW_Fe.tif,['Rock Type_Roche transitoire']
-SLG25_BW_Ca.tif,"['Mineral_Ca', 'Rock Type_Roche transitoire']"
-SLG31_BW_Si.tif,"['Mineral_Si', 'Rock Type_Gneiss', 'Rock Type_Roche transitoire']"
-SL8B_BW_Si.tif,"['Mineral_Si', 'Rock Type_Gneiss', 'Rock Type_Roche transitoire']"
-SLG19_BW_Ca.tif,"['Mineral_Ca', 'Rock Type_Roche transitoire']"
-SL4_BW_Si.tif,"['Mineral_Si', 'Rock Type_Gneiss', 'Rock Type_Roche transitoire']"
+SLG31_BW_Ti.tif,"['Mineral_Ca', 'Rock Type_Roche transitoire']"
+SLG30A_BW_Ca.tif,"['Mineral_Ca', 'Rock Type_Gneiss', 'Rock Type_Roche transitoire']"
+SLG22_BW_Pb.tif,"['Mineral_Ca', 'Mineral_Pb', 'Rock Type_Gneiss']"
+SL8A_BW_Fe.tif,['Mineral_Si']
+SL9A_BW_Pb.tif,"['Mineral_Pb', 'Rock Type_Gneiss']"
+SL8C_BW_Pb.tif,['Mineral_Pb']
+SLG35_BW_Ca.tif,['Mineral_Fe']
+SLG26_BW_Si.tif,"['Mineral_Si', 'Rock Type_Roche transitoire']"
+SLG23_BW_Ca.tif,"['Mineral_Ca', 'Rock Type_Roche transitoire']"
+SLG8_BW_Ti.tif,"['Mineral_Ca', 'Rock Type_Roche transitoire']"
+SL1_BW_Si.tif,"['Mineral_Si', 'Rock Type_Roche transitoire']"
+SLG13_BW_Ti.tif,"['Mineral_Ca', 'Rock Type_Roche transitoire']"
+SLG30B_BW_Pb.tif,['Mineral_Pb']
+SL6_BW_Si.tif,['Mineral_Si']
+SL6_BW_Pb.tif,['Mineral_Pb']
+SL4_BW_Fe.tif,['Mineral_Fe']
+SLG8_BW_Pb.tif,['Mineral_Pb']
+SL8E_BW_Si.tif,[]
+SLG17_BW_Ti.tif,['Mineral_Fe']
+SLG30B_BW_Ti.tif,['Rock Type_Roche transitoire']
+SLG7_BW_Pb.tif,"['Mineral_Si', 'Rock Type_Roche transitoire']"
+SLG27_BW_Pb.tif,['Mineral_Pb']
+SLG20_BW_Ti.tif,"['Mineral_Ca', 'Rock Type_Roche transitoire']"
+SLG3_BW_Ti.tif,['Mineral_Fe']
+SLG33_BW_Ca.tif,"['Mineral_Ca', 'Rock Type_Gneiss', 'Rock Type_Roche transitoire']"

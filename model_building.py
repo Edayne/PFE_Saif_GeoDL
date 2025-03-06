@@ -28,7 +28,9 @@ def images_from_folder(folder):
             
             if filename.endswith("Fe.tif") \
             or filename.endswith("Ca.tif") \
-            or filename.endswith("Si.tif") :
+            or filename.endswith("Si.tif") \
+            or filename.endswith("Pb.tif") \
+            or filename.endswith("Ti.tif") :
                 
                 if filename.startswith("SL7D") \
                 or filename.startswith("SL7A") \
@@ -57,17 +59,18 @@ def build_model(input_shape, num_classes):
 
     Args:
         input_shape (tuple, optional): _description_. 
-        num_classes (int, optional): _description_. Defaults to 3.
+        num_classes (int, optional): Nombre de classes à décrire. 
+        Doit correspondre à nombre de minéraux étudiés + 3 .
 
     Returns:
-        _type_: _description_
+        keras.model: Notre modèle compilé
     """
     model = keras.Sequential([
         layers.Input(shape=input_shape),
-        # Couche d'augmentation
+        # Couches d'augmentation
         layers.RandomFlip("horizontal"),  # Randomly flip images horizontally
-        layers.RandomRotation(0.05),  # Rotate up to ±10%
-        layers.RandomZoom(0.2),  # Random zoom in/out
+        layers.RandomRotation(0.07),  # Rotate up to ±7%
+        layers.RandomZoom(0.15),  # Random zoom in/out
         layers.RandomContrast(0.1),  # Slight contrast variations
 
         # Couches de convolution
@@ -79,6 +82,7 @@ def build_model(input_shape, num_classes):
                       activation='elu', 
                       padding='same'),
         layers.MaxPooling2D((2, 2)),
+        # layers.BatchNormalization(),
         layers.Conv2D(128, (3, 3), 
                       activation='elu', 
                       padding='same'),
@@ -95,8 +99,9 @@ def build_model(input_shape, num_classes):
         
         layers.Dense(128, 
                      activation='elu'),
-        layers.Dropout(0.50),
+        layers.Dropout(0.45),
         layers.BatchNormalization(),
+
         layers.Dense(num_classes, # Un neurone par classe
                      activation='sigmoid')
     ])
@@ -107,7 +112,7 @@ def build_model(input_shape, num_classes):
     return model
 
 # 3. Train the model
-def train_model(model, X_train, y_train, X_test, y_test, epochs=15):
+def train_model(model, X_train, y_train, X_test, y_test, epochs=20):
     """_summary_
 
     Args:
@@ -116,8 +121,7 @@ def train_model(model, X_train, y_train, X_test, y_test, epochs=15):
         y_train (_type_): _description_
         X_test (_type_): _description_
         y_test (_type_): _description_
-        epochs (int, optional): _description_. Defaults to 10.
-        batch_size (int, optional): _description_. Defaults to 64.
+        epochs (int, optional): _description_. Defaults to 20.
 
     Returns:
         keras.model: Modèle entrainé
@@ -125,7 +129,7 @@ def train_model(model, X_train, y_train, X_test, y_test, epochs=15):
     # Création des callbacks
     early_stopping = EarlyStopping(monitor='val_loss', patience=5, restore_best_weights=True, start_from_epoch=6)
     model_checkpoint = ModelCheckpoint('best_model.keras', save_best_only=True, monitor='val_loss')
-    reduce_lr = ReduceLROnPlateau(monitor='val_loss', factor=0.5, patience=3, verbose=1)
+    reduce_lr = ReduceLROnPlateau(monitor='val_loss', factor=0.7, patience=3, verbose=1)
 
     # Entrainement du modèle
     print("\nDébut entrainement...")
@@ -133,7 +137,7 @@ def train_model(model, X_train, y_train, X_test, y_test, epochs=15):
         X_train, y_train,
         validation_data=(X_test, y_test),
         epochs=epochs,
-        batch_size=max(1, len(X_train)//20),
+        batch_size=max(1, len(X_train)//10),
         callbacks=[early_stopping, model_checkpoint, reduce_lr],
         verbose=1
     )

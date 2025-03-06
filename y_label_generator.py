@@ -12,6 +12,7 @@ def get_sample_name(filename):
     return None
 
 def classify_rock_type(position):
+    # On triche un peu sur la position du coeur en l'élargissant légèrement
     """Assigns rock type based on position.
 
     Args:
@@ -22,9 +23,9 @@ def classify_rock_type(position):
     """
     if (0 <= position <= 33) or (67 <= position <= 72):
         return "Gneiss"
-    elif (33 <= position < 46) or (47 <= position < 67):
+    elif (33 <= position < 44.9) or (49 <= position < 67):
         return "Roche transitoire"
-    elif (46 <= position < 47):
+    elif (44.9 <= position < 49):
         return "Core"
     return None
 
@@ -49,7 +50,9 @@ def generate_labels(image_folder, csv_path):
         for filename in files:
             if filename.endswith("Fe.tif") \
             or filename.endswith("Ca.tif") \
-            or filename.endswith("Si.tif") : 
+            or filename.endswith("Si.tif") \
+            or filename.endswith("Pb.tif") \
+            or filename.endswith("Ti.tif") :
                 result = get_sample_name(filename)
                 if not result:
                     continue
