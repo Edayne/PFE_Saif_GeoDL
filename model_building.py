@@ -10,6 +10,8 @@ from sklearn.model_selection import train_test_split
 import os
 import cv2
 import time
+import matplotlib.pyplot as plt
+from pathlib import Path
 
 # 1. Create the dataset
 def images_from_folder(folder):
@@ -54,12 +56,30 @@ def images_from_folder(folder):
     return images, filenames
 
 # 2. Build the CNN model
+
+def data_augmentor(X_train):
+    """Data Augmentation
+
+    Args:
+        X_train (np.ndarray): Jeu d'entrainement
+
+    Returns:
+        np.ndarray: Jeu de donnée augmenté
+    """
+    data_augmentation = keras.Sequential([
+        layers.RandomFlip("horizontal_and_vertical"),  
+        layers.RandomRotation(0.15),  
+        layers.RandomZoom(0.10),  
+        layers.RandomContrast(0.1),  
+    ])
+    return data_augmentation(X_train)
+
 def build_model(input_shape, num_classes):
     """Création du CNN
 
     Args:
-        input_shape (tuple, optional): _description_. 
-        num_classes (int, optional): Nombre de classes à décrire. 
+        input_shape (tuple): _description_. 
+        num_classes (int): Nombre de classes à décrire. 
         Doit correspondre à nombre de minéraux étudiés + 3 .
 
     Returns:
@@ -67,43 +87,31 @@ def build_model(input_shape, num_classes):
     """
     model = keras.Sequential([
         layers.Input(shape=input_shape),
-        # Couches d'augmentation
-        layers.RandomFlip("horizontal"),  # Randomly flip images horizontally
-        layers.RandomRotation(0.07),  # Rotate up to ±7%
-        layers.RandomZoom(0.15),  # Random zoom in/out
-        layers.RandomContrast(0.1),  # Slight contrast variations
-
-        # Couches de convolution
-        layers.Conv2D(32, (3, 3), 
-                      activation='elu', 
-                      padding='same'),
-        layers.MaxPooling2D((2, 2)),
-        layers.Conv2D(64, (3, 3), 
-                      activation='elu', 
-                      padding='same'),
-        layers.MaxPooling2D((2, 2)),
-        # layers.BatchNormalization(),
-        layers.Conv2D(128, (3, 3), 
-                      activation='elu', 
-                      padding='same'),
-        layers.MaxPooling2D((2, 2)),
-        # layers.Conv2D(256, (3, 3), 
-        #               activation='relu', 
-        #               padding='same'),
         
-        layers.Flatten(),
-        
-        # layers.Dense(256, 
-        #              activation='relu'),
-        # layers.Dropout(0.50),
-        
-        layers.Dense(128, 
-                     activation='elu'),
-        layers.Dropout(0.45),
+        # Convolutional layers
+        layers.Conv2D(32, (3, 3), padding='same'),
         layers.BatchNormalization(),
+        layers.Activation('elu'),
+        layers.MaxPooling2D((2, 2)),
 
-        layers.Dense(num_classes, # Un neurone par classe
-                     activation='sigmoid')
+        layers.Conv2D(64, (3, 3), padding='same'),
+        layers.BatchNormalization(),
+        layers.Activation('elu'),
+        layers.MaxPooling2D((2, 2)),
+
+        layers.Conv2D(128, (3, 3), padding='same'),
+        layers.BatchNormalization(),
+        layers.Activation('elu'),
+        layers.MaxPooling2D((2, 2)),
+
+        layers.Flatten(),
+        layers.Dense(128),
+        layers.BatchNormalization(),
+        layers.Activation('elu'),
+        layers.Dropout(0.5),
+
+        layers.Dense(num_classes,           # One neuron per class
+                     activation='sigmoid')  # Multi-label output
     ])
     
     model.compile(optimizer='adam',
@@ -112,7 +120,7 @@ def build_model(input_shape, num_classes):
     return model
 
 # 3. Train the model
-def train_model(model, X_train, y_train, X_val, y_val, epochs=20):
+def train_model(model, X_train, y_train, X_val, y_val, epochs=20,):
     """Entraine le modèle fourni
 
     Args:
@@ -130,16 +138,17 @@ def train_model(model, X_train, y_train, X_val, y_val, epochs=20):
     early_stopping = EarlyStopping(monitor='val_loss', patience=5, restore_best_weights=True, start_from_epoch=6)
     model_checkpoint = ModelCheckpoint('best_model.keras', save_best_only=True, monitor='val_loss')
     reduce_lr = ReduceLROnPlateau(monitor='val_loss', factor=0.7, patience=3, verbose=1)
-
+    
     # Entrainement du modèle
     print("\nDébut entrainement...")
     history = model.fit(
         X_train, y_train,
-        validation_data=(X_val, y_val),
-        epochs=epochs,
-        batch_size=max(1, len(X_train)//10),
-        callbacks=[early_stopping, model_checkpoint, reduce_lr],
-        verbose=1
+        validation_data = (X_val, y_val),
+        epochs = epochs,
+        # batch_size = max(1, len(X_train)//10),
+        batch_size = 16,
+        callbacks = [early_stopping, model_checkpoint, reduce_lr],
+        verbose = 1
     )
     return history
     
@@ -159,3 +168,42 @@ def evaluate_model(model, x_test, y_test):
     print(f"Test loss: {test_loss:.2f}")
     print(f"Test accuracy: {test_acc:.2f}\n")
     return 0
+
+def graph_plot_save(history):
+    """Plots out the accuracy and loss of the model during training
+
+    Args:
+        history (History): History object given after keras.model.fit
+    """
+
+    #plotting Accuracy
+    plt.subplot(121)
+    plt.plot(history.history['accuracy'])
+    plt.plot(history.history['val_accuracy'])
+    plt.title('Précision du modèle')
+    plt.ylabel('Accuracy')
+    plt.xlabel('Epoch')
+    plt.legend(['Train', 'Validation'], loc='upper left')
+    
+    #plotting Loss
+    plt.subplot(122)
+    plt.plot(history.history['loss'])
+    plt.plot(history.history['val_loss'])
+    plt.title('Perte du modèle')
+    plt.ylabel('Loss')
+    plt.xlabel('Epoch')
+    plt.legend(['Train', 'Validation'], loc='upper left')
+
+    results_dir = Path("Results")
+    results_dir.mkdir(parents=True, exist_ok=True)
+    # Find the next available index
+    existing_files = [f.stem for f in results_dir.glob("results_*.png")]
+    existing_numbers = [int(f.split("_")[-1]) for f in existing_files if f.split("_")[-1].isdigit()]
+    next_index = max(existing_numbers, default=0) + 1  # Default to 1 if no files exist
+    # Save the plot with an incremented filename
+    plot_path = results_dir / f"results_{next_index}.png"
+    plt.savefig(plot_path)
+
+    print(f"Plot saved as: {plot_path}")
+
+    plt.show()

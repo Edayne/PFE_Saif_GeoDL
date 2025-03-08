@@ -1,10 +1,8 @@
 from model_building import *
 from y_label_generator import *
 
-import matplotlib.pyplot as plt
 import sys
-from pathlib import Path
-
+from sklearn.utils import class_weight
 
 
 if __name__ == "__main__":
@@ -31,39 +29,72 @@ if __name__ == "__main__":
     print(df_labels)
     
     y = encoded_labels
-    
-    # Séparation du dataset en Train/Test
+
+    # Séparation du dataset en Test/Val puis Val séparé en Val/Test
+    # Random seed = 123 ; à supprimer pour avoir une meilleure idée de la qualité du modèle
     X_train, X_val, y_train, y_val, filenames_train, filenames_val \
         = train_test_split(images, y, filenames, 
-                           test_size=0.20, shuffle=True)
+                           test_size=0.20, 
+                           shuffle=True, stratify=y, 
+                           random_state=123)
+    
+    X_train = data_augmentor(X_train)
+
     X_test, X_val, y_test, y_val, filenames_test, filenames_val \
         = train_test_split(X_val, y_val, filenames_val, 
-                           test_size=0.5)
+                           test_size=0.5,
+                           random_state=123)
 
     print("Nombre d'images dans le Training set: ",len(X_train))
     print("Nombre d'images dans le Validation set: ",len(X_val))
     print("Nombre d'images dans le Test set: ",len(X_test))
-    img_shape = X_train[0].shape
-    
+
     # Construction du modèle
+    img_shape = X_train[0].shape
     MODEL_PATH = "best_model.keras"
     EPOCHS = 25
     NB_CLASS = encoded_labels.shape[1]
-    
-    print("\nDébut entrainement...")
 
-    model = build_model(input_shape=img_shape, num_classes=NB_CLASS)
-    model.summary()
+    if os.path.exists(MODEL_PATH):
+        choice = input("\nUn modèle déjà entrainé a été trouvé. \nVoulez-vous en en(T)rainer un nouveau ou (E)valuer celui existant? [t/e]: ").strip().lower()
 
-    # Entrainement du modèle
-    start = time.time()
-    history = train_model(model, X_train, y_train, X_val, y_val, epochs=EPOCHS)
-    end = time.time()
-    print(f"Temps d'éxécution: {end-start:.2f}s\n")
-    
-    evaluate_model(model, X_test, y_test)
+        if choice == 'e':
+            print("Chargement...")
+            model = tf.keras.models.load_model(MODEL_PATH)
+            
+            evaluate_model(model, X_test, y_test)
+
+        elif choice == 't':
+            model = build_model(input_shape=img_shape, num_classes=NB_CLASS)
+            model.summary()
+
+            # Entrainement du modèle
+            start = time.time()
+            history = train_model(model, X_train, y_train, X_val, y_val, epochs=EPOCHS)
+            end = time.time()
+            print(f"Temps d'éxécution: {end-start:.2f}s\n")
+            
+            evaluate_model(model, X_test, y_test)
+            graph_plot_save(history)
+
+        else:
+            print("INVALIDE. SORTIE.")
+    else:
+        print("Aucun modèle trouvé. Début entrainement...")
+        model = build_model(input_shape=img_shape, num_classes=NB_CLASS)
+        model.summary()
+
+        # Entrainement du modèle
+        start = time.time()
+        history = train_model(model, X_train, y_train, X_val, y_val, epochs=EPOCHS)
+        end = time.time()
+        print(f"Temps d'éxécution: {end-start:.2f}s\n")
+        
+        evaluate_model(model, X_test, y_test)
+        graph_plot_save(history)
     
     # Affichage des prédictions 
+    print("\nPrédiction sur X_test...")
     y_test_pred = model.predict(X_test)
     y_pred_bin = (y_test_pred > 0.5).astype(int)
     label_names = encoder.get_feature_names_out()
@@ -86,35 +117,3 @@ if __name__ == "__main__":
     df_results.to_csv("predictions.csv", index=False)
 
     print("Predictions saved to predictions.csv!")
-    
-    #plotting Accuracy
-    plt.subplot(121)
-    plt.plot(history.history['accuracy'])
-    plt.plot(history.history['val_accuracy'])
-    plt.title('Précision du modèle')
-    plt.ylabel('Accuracy')
-    plt.xlabel('Epoch')
-    plt.legend(['Train', 'Test'], loc='upper left')
-    
-    #plotting Loss
-    plt.subplot(122)
-    plt.plot(history.history['loss'])
-    plt.plot(history.history['val_loss'])
-    plt.title('Perte du modèle')
-    plt.ylabel('Loss')
-    plt.xlabel('Epoch')
-    plt.legend(['Train', 'Test'], loc='upper left')
-
-    results_dir = Path("Results")
-    results_dir.mkdir(parents=True, exist_ok=True)
-    # Find the next available index
-    existing_files = [f.stem for f in results_dir.glob("results_*.png")]
-    existing_numbers = [int(f.split("_")[-1]) for f in existing_files if f.split("_")[-1].isdigit()]
-    next_index = max(existing_numbers, default=0) + 1  # Default to 1 if no files exist
-    # Save the plot with an incremented filename
-    plot_path = results_dir / f"results_{next_index}.png"
-    plt.savefig(plot_path)
-
-    print(f"Plot saved as: {plot_path}")
-
-    plt.show()
