@@ -35,15 +35,16 @@ if __name__ == "__main__":
     X_train, X_val, y_train, y_val, filenames_train, filenames_val \
         = train_test_split(images, y, filenames, 
                            test_size=0.20, 
-                           shuffle=True, stratify=y, 
-                           random_state=123)
+                        #    shuffle=True,
+                           stratify=y,
+                           )
     
     X_train = data_augmentor(X_train)
 
     X_test, X_val, y_test, y_val, filenames_test, filenames_val \
         = train_test_split(X_val, y_val, filenames_val, 
                            test_size=0.5,
-                           random_state=123)
+                           )
 
     print("Nombre d'images dans le Training set: ",len(X_train))
     print("Nombre d'images dans le Validation set: ",len(X_val))
@@ -52,11 +53,12 @@ if __name__ == "__main__":
     # Construction du modèle
     img_shape = X_train[0].shape
     MODEL_PATH = "best_model.keras"
-    EPOCHS = 25
+    EPOCHS = 35
     NB_CLASS = encoded_labels.shape[1]
 
     if os.path.exists(MODEL_PATH):
-        choice = input("\nUn modèle déjà entrainé a été trouvé. \nVoulez-vous en en(T)rainer un nouveau ou (E)valuer celui existant? [t/e]: ").strip().lower()
+        choice = input("\nUn modèle déjà entrainé a été trouvé. "
+        "\nVoulez-vous en en(T)rainer un nouveau ou (E)valuer celui existant? [t/e]: ").strip().lower()
 
         if choice == 'e':
             print("Chargement...")

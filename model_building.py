@@ -31,8 +31,8 @@ def images_from_folder(folder):
             if filename.endswith("Fe.tif") \
             or filename.endswith("Ca.tif") \
             or filename.endswith("Si.tif") \
-            or filename.endswith("Pb.tif") \
-            or filename.endswith("Ti.tif") :
+            or filename.endswith("Al.tif") \
+            or filename.endswith("Na.tif") :
                 
                 if filename.startswith("SL7D") \
                 or filename.startswith("SL7A") \
@@ -66,12 +66,20 @@ def data_augmentor(X_train):
     Returns:
         np.ndarray: Jeu de donnée augmenté
     """
+    # data_augmentation = keras.Sequential([
+    #     layers.RandomFlip("horizontal_and_vertical"),  
+    #     layers.RandomRotation(0.15),  
+    #     layers.RandomZoom(0.10),  
+    #     layers.RandomContrast(0.1),  
+    # ])
     data_augmentation = keras.Sequential([
-        layers.RandomFlip("horizontal_and_vertical"),  
-        layers.RandomRotation(0.15),  
-        layers.RandomZoom(0.10),  
-        layers.RandomContrast(0.1),  
-    ])
+    layers.RandomFlip("horizontal_and_vertical"),
+    layers.RandomRotation(0.2),   # Increased rotation range
+    layers.RandomZoom(0.2),       # Increased zoom range
+    layers.RandomContrast(0.2),   # More contrast variation
+    layers.RandomTranslation(0.1, 0.1)  # Random shift
+])
+
     return data_augmentation(X_train)
 
 def build_model(input_shape, num_classes):
@@ -89,23 +97,37 @@ def build_model(input_shape, num_classes):
         layers.Input(shape=input_shape),
         
         # Convolutional layers
+
+        layers.Conv2D(16, (3, 3), padding='same'),
+        layers.BatchNormalization(),
+        layers.Activation('elu'),
+        layers.MaxPooling2D((2, 2), strides=2),
+
         layers.Conv2D(32, (3, 3), padding='same'),
         layers.BatchNormalization(),
         layers.Activation('elu'),
-        layers.MaxPooling2D((2, 2)),
+        # layers.Dropout(0.4),
+        layers.Conv2D(32, (3, 3), padding='same'),
+        layers.BatchNormalization(),
+        layers.Activation('elu'),
+        layers.MaxPooling2D((2, 2), strides=2),
 
         layers.Conv2D(64, (3, 3), padding='same'),
         layers.BatchNormalization(),
         layers.Activation('elu'),
-        layers.MaxPooling2D((2, 2)),
+        layers.Conv2D(64, (3, 3), padding='same'),
+        layers.BatchNormalization(),
+        layers.Activation('elu'),
+        layers.MaxPooling2D((2, 2), strides=2),
 
         layers.Conv2D(128, (3, 3), padding='same'),
         layers.BatchNormalization(),
         layers.Activation('elu'),
-        layers.MaxPooling2D((2, 2)),
+        layers.Dropout(0.3),
 
-        layers.Flatten(),
-        layers.Dense(128),
+        layers.GlobalAveragePooling2D(), # Au lieu de Flatten()
+        layers.Dense(64,
+                     ), # kernel_regularizer=keras.regularizers.l2(0.001)
         layers.BatchNormalization(),
         layers.Activation('elu'),
         layers.Dropout(0.5),
@@ -137,7 +159,7 @@ def train_model(model, X_train, y_train, X_val, y_val, epochs=20,):
     # Création des callbacks
     early_stopping = EarlyStopping(monitor='val_loss', patience=5, restore_best_weights=True, start_from_epoch=6)
     model_checkpoint = ModelCheckpoint('best_model.keras', save_best_only=True, monitor='val_loss')
-    reduce_lr = ReduceLROnPlateau(monitor='val_loss', factor=0.7, patience=3, verbose=1)
+    reduce_lr = ReduceLROnPlateau(monitor='val_loss', factor=0.5, patience=3, verbose=1)
     
     # Entrainement du modèle
     print("\nDébut entrainement...")
@@ -145,8 +167,7 @@ def train_model(model, X_train, y_train, X_val, y_val, epochs=20,):
         X_train, y_train,
         validation_data = (X_val, y_val),
         epochs = epochs,
-        # batch_size = max(1, len(X_train)//10),
-        batch_size = 16,
+        batch_size = max(1, len(X_train)//10),
         callbacks = [early_stopping, model_checkpoint, reduce_lr],
         verbose = 1
     )
